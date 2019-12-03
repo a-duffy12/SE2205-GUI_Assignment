@@ -26,9 +26,9 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-	static Graph graph = new Graph();
-	static int counter = 0;
-	static LinkedList<Node> nodes = new LinkedList<Node>();
+	static Graph graph = new Graph(); // create a graph to use
+	static int counter = 0; // counter to count number of nodes
+	static LinkedList<Node> nodeList = new LinkedList<Node>(); // linked list required to help build the graph
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -62,12 +62,12 @@ public class Main extends Application {
 			if (dfs.isSelected()) {
 
 				graph.resetNodesVisited(); // resets the list of nodes that have been visited
-				resultsLabel.setText(graph.DFSforGUI(nodes.getFirst())); // sets the label to the result of the DFS
+				resultsLabel.setText(graph.DFSforGUI(nodeList.getFirst())); // sets the label to the result of the DFS
 
 			} else {
 
 				graph.resetNodesVisited(); // resets the list of nodes that have been visited
-				resultsLabel.setText(graph.BFS(nodes.getFirst())); // sets the label to the result of the BFS
+				resultsLabel.setText(graph.BFS(nodeList.getFirst())); // sets the label to the result of the BFS
 			}
 		});
 
@@ -137,18 +137,18 @@ public class Main extends Application {
 		Button addButton = new Button("Add");
 		addButton.setOnAction(e -> {
 
-			Node source = null;
-			Node destination = null;
+			Node source = null; // set default source 
+			Node destination = null; // set default destination
 
-			for (int i = 0; i < nodes.size(); i++) {
-				if (nodes.get(i).name.equals(sourceField.getText())) {
-					source = nodes.get(i);
+			for (int i = 0; i < nodeList.size(); i++) { // runs for the number of nodes in the graph
+				if (nodeList.get(i).name.equals(sourceField.getText())) {
+					source = nodeList.get(i); // retrieve the name of the source node
 				}
-				if (nodes.get(i).name.equals(destinationField.getText())) {
-					destination = nodes.get(i);
+				if (nodeList.get(i).name.equals(destinationField.getText())) {
+					destination = nodeList.get(i); // retrieve the name of the destination node
 				}
 			}
-			graph.addEdge(source, destination);
+			graph.addEdge(source, destination); // add an edge between the current source and current destination
 		});
 
 		grid.getChildren().addAll(sourceLabel, destinationLabel, sourceField, destinationField, addButton);
@@ -183,9 +183,9 @@ public class Main extends Application {
 		Button addButton = new Button("Add");
 		addButton.setOnAction(e -> {
 
-			Node tempnode = new Node(counter, nodeNameField.getText());
-			counter++;
-			nodes.add(tempnode);
+			Node temp = new Node(counter, nodeNameField.getText()); // creates a temporary node, which is named by the user
+			counter++; // increase the counter
+			nodeList.add(temp); // adds the temporary node to the linked list of nodes, now as a permanent node
 		});
 
 		grid.getChildren().addAll(nodeNameLabel, nodeNameField, addButton);
